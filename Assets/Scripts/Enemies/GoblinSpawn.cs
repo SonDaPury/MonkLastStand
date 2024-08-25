@@ -1,12 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinSpawn : MonoBehaviour
+namespace Enemies
 {
-    // Start is called before the first frame update
-    void Start() { }
+   public class GoblinSpawn : MonoBehaviour
+   {
+      private void Start()
+      {
+         SpawnPositionGoblin();
+      }
 
-    // Update is called once per frame
-    void Update() { }
+      private void SpawnPositionGoblin()
+      {
+         if (EnemyManager.Instance.goblinSpawnPoint.Length <= 0) return;
+      
+         foreach (var goblinSpawnPoint in EnemyManager.Instance.goblinSpawnPoint)
+         {
+            Instantiate(EnemyManager.Instance.goblinPrefab, goblinSpawnPoint, Quaternion.identity);      
+         }
+      }
+   }
 }
