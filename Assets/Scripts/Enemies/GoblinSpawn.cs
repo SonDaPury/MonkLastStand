@@ -2,21 +2,27 @@ using UnityEngine;
 
 namespace Enemies
 {
-   public class GoblinSpawn : MonoBehaviour
-   {
-      private void Start()
-      {
-         SpawnPositionGoblin();
-      }
+  public class GoblinSpawn : MonoBehaviour
+  {
+    [SerializeField] protected GameObject goblinGameObject;
 
-      private void SpawnPositionGoblin()
+    private void Start()
+    {
+      SpawnPositionGoblin();
+    }
+
+    private void SpawnPositionGoblin()
+    {
+      if (EnemyManager.Instance.goblinSpawnPoint.Length <= 0) return;
+
+      var holder = goblinGameObject.transform.Find("Holder");
+
+      foreach (var goblinSpawnPoint in EnemyManager.Instance.goblinSpawnPoint)
       {
-         if (EnemyManager.Instance.goblinSpawnPoint.Length <= 0) return;
-      
-         foreach (var goblinSpawnPoint in EnemyManager.Instance.goblinSpawnPoint)
-         {
-            Instantiate(EnemyManager.Instance.goblinPrefab, goblinSpawnPoint, Quaternion.identity);      
-         }
+        var golblinInstance = Instantiate(EnemyManager.Instance.goblinPrefab, goblinSpawnPoint, Quaternion.identity);
+        golblinInstance.name = "Goblin_" + goblinSpawnPoint.ToString();
+        golblinInstance.transform.parent = holder.transform;
       }
-   }
+    }
+  }
 }
