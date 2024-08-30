@@ -3,65 +3,77 @@ using UnityEngine;
 
 namespace Enemies
 {
-  public class PatrolEnemy : MonoBehaviour
-  {
-    [SerializeField] protected Rigidbody2D rg;
-    [SerializeField] protected float moveSpeedEnemy = 5f;
-    [SerializeField] protected Vector2 moveDirection = Vector2.right;
-    [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected LayerMask groundLayer;
-    public bool isFaceRight = true;
-
-    private void Awake()
+    public class PatrolEnemy : MonoBehaviour
     {
-      rg = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField]
+        protected Rigidbody2D rg;
 
-    private void FixedUpdate()
-    {
-      // EnemiesMovement();
+        [SerializeField]
+        protected float moveSpeedEnemy = 3f;
 
-      var hit = Physics2D.Raycast(groundCheck.position, -transform.up, 1f, groundLayer);
+        [SerializeField]
+        protected Vector2 moveDirection = Vector2.right;
 
-      if (hit.collider != false)
-      {
-        if (isFaceRight)
+        [SerializeField]
+        protected Transform groundCheck;
+
+        [SerializeField]
+        protected LayerMask groundLayer;
+        public bool isFaceRight = true;
+
+        private void Awake()
         {
-          rg.velocity = new Vector2(moveSpeedEnemy, rg.velocity.y);
+            rg = GetComponent<Rigidbody2D>();
         }
-        else
+
+        private void FixedUpdate()
         {
-          rg.velocity = new Vector2(-moveSpeedEnemy, rg.velocity.y);
-
+            EnemiesMovement();
         }
-      }
-      else
-      {
-        isFaceRight = !isFaceRight;
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1f);
-      }
-    }
 
-    protected void EnemiesMovement()
-    {
-      rg.velocity = new Vector2(moveDirection.x * moveSpeedEnemy, rg.velocity.y);
-      // Debug.Log(moveDirection);
+        protected void EnemiesMovement()
+        {
+            if (!IsEgde() && !IsWallCollision())
+            {
+                Flip();
+                rg.velocity = new Vector2(moveSpeedEnemy * moveDirection.x, rg.velocity.y);
+            }
+            else
+            {
+                isFaceRight = !isFaceRight;
+                transform.localScale = new Vector3(
+                    -transform.localScale.x,
+                    transform.localScale.y,
+                    1f
+                );
+            }
+        }
 
-      // if (IsEgde())
-      // {
-      //   Flip();
-      // }
-    }
+        // Check xem enemy có ở edge của platform không
+        protected bool IsEgde()
+        {
+            return Physics2D.Raycast(groundCheck.position, -transform.up, 1f, groundLayer).collider
+                == false;
+        }
 
-    // Check xem enemy có ở edge của platform không
-    protected bool IsEgde()
-    {
-      return Physics2D.Raycast(transform.position, moveDirection, 1f, LayerMask.GetMask("Ground")).collider == null;
-    }
+        // Check xem enemy có ở edge của platform không
+        protected bool IsWallCollision()
+        {
+            return Physics2D.Raycast(groundCheck.position, transform.right, 1f, groundLayer)
+                == true;
+        }
 
-    protected void Flip()
-    {
-      moveDirection *= -1;
+        // Đổi hướng di chuyển của enemy
+        protected void Flip()
+        {
+            if (isFaceRight)
+            {
+                moveDirection = Vector2.right;
+            }
+            else
+            {
+                moveDirection = Vector2.left;
+            }
+        }
     }
-  }
 }

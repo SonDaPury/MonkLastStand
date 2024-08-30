@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
+        playerChangeState.ChangeStateMovementOfPlayer();
     }
 
     public void OnMoveInput(CallbackContext input)

@@ -6,7 +6,8 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerInputHandle : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Transform groundCheck;
+    public Transform groundCheckLeftLeg;
+    public Transform groundCheckRightLeg;
     public LayerMask groundLayer;
     public int maxJumpCount = 2;
     public int pressSpaceCount = 0;
@@ -19,7 +20,6 @@ public class PlayerInputHandle : MonoBehaviour
     private void Update()
     {
         CheckIsAllowJump();
-        PlayerManager.Instance.playerChangeState.ChangeStateMovementOfPlayer();
     }
 
     // Di chuyển nhân vật theo phương ngang
@@ -68,10 +68,8 @@ public class PlayerInputHandle : MonoBehaviour
 
     public void CheckIsAllowJump()
     {
-        PlayerManager.Instance.isAllowJump = Physics2D.OverlapCircle(
-            groundCheck.position,
-            0.2f,
-            groundLayer
-        );
+        PlayerManager.Instance.isAllowJump =
+            Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, groundLayer)
+            || Physics2D.OverlapCircle(groundCheckRightLeg.transform.position, 0.2f, groundLayer);
     }
 }
