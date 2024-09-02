@@ -58,9 +58,4 @@ public class PlayerChangeState : MonoBehaviour
             PlayerManager.Instance.SetCanMove(true);
         }
     }
-
-    public void OnTakeHitAnimationEnd()
-    {
-        PlayerManager.Instance.SetCanMove(true);
-    }
 }
