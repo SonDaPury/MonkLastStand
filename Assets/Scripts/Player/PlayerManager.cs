@@ -11,14 +11,22 @@ public class PlayerManager : MonoBehaviour
     public float jumpForceTwice = 7f; // lực nhảy lần 2
     public PlayerInputHandle playerHandleInput; // Get PlayerHandleInput Instance
     public PlayerChangeState playerChangeState; // Get PlayerChangeState Instance
+    public PlayerTakeHit playerTakeHit; // Get PlayerTakeHit Instance
     public int jumpCount = 0;
     public bool isAllowJump;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public Rigidbody2D rb;
+    private bool canMove = true;
+
     public static PlayerManager Instance { get; private set; } // Singleton pattern
 
     private void Awake()
     {
         playerHandleInput = GetComponent<PlayerInputHandle>();
         playerChangeState = GetComponent<PlayerChangeState>();
+        playerTakeHit = GetComponent<PlayerTakeHit>();
+        rb = GetComponent<Rigidbody2D>();
 
         if (Instance == null)
         {
@@ -35,8 +43,16 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
-        playerChangeState.ChangeStateMovementOfPlayer();
+        if (canMove)
+        {
+            playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
+            playerChangeState.ChangeStateMovementOfPlayer();
+        }
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     public void OnMoveInput(CallbackContext input)

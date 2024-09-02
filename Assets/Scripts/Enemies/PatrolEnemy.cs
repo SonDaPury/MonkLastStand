@@ -6,10 +6,7 @@ namespace Enemies
     public class PatrolEnemy : MonoBehaviour
     {
         [SerializeField]
-        protected Rigidbody2D rg;
-
-        [SerializeField]
-        protected float moveSpeedEnemy = 3f;
+        public Rigidbody2D rg;
 
         [SerializeField]
         protected Vector2 moveDirection = Vector2.right;
@@ -20,18 +17,14 @@ namespace Enemies
         [SerializeField]
         protected LayerMask groundLayer;
         public bool isFaceRight = true;
+        public float moveSpeedEnemy = 3f;
 
         private void Awake()
         {
             rg = GetComponent<Rigidbody2D>();
         }
 
-        private void FixedUpdate()
-        {
-            EnemiesMovement();
-        }
-
-        protected void EnemiesMovement()
+        public void EnemiesMovement()
         {
             if (!IsEgde() && !IsWallCollision())
             {
@@ -64,7 +57,7 @@ namespace Enemies
         }
 
         // Đổi hướng di chuyển của enemy
-        protected void Flip()
+        public void Flip()
         {
             if (isFaceRight)
             {

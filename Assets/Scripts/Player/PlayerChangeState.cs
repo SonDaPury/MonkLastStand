@@ -54,4 +54,15 @@ public class PlayerChangeState : MonoBehaviour
             _animator.SetBool("IsDowning", false);
         }
     }
+
+    public void PlayerTakeHit()
+    {
+        _animator.SetTrigger("IsTakeHit");
+        PlayerManager.Instance.SetCanMove(false);
+    }
+
+    public void OnTakeHitAnimationEnd()
+    {
+        PlayerManager.Instance.SetCanMove(true);
+    }
 }

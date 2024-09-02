@@ -76,10 +76,10 @@ GameObject:
   - component: {fileID: 9074903493313472159}
   - component: {fileID: 7309958906467509953}
   - component: {fileID: 7483262149838176649}
-  - component: {fileID: 5696014538028675091}
+  - component: {fileID: 2866123250398773975}
   m_Layer: 0
   m_Name: Goblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5945941779777230350}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -214,7 +214,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f23f390fd87c1e64798f9da0c4453db2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -238,13 +238,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rg: {fileID: 0}
-  moveSpeedEnemy: 3
   moveDirection: {x: 1, y: 0}
   groundCheck: {fileID: 2891078672889288099}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   isFaceRight: 1
+  moveSpeedEnemy: 3
 --- !u!95 &7483262149838176649
 Animator:
   serializedVersion: 5
@@ -266,7 +266,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5696014538028675091
+--- !u!114 &2866123250398773975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,14 +275,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5945941779777230350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ee76207b5eed1c4e83842d42c5a5ac0, type: 3}
+  m_Script: {fileID: 11500000, guid: c55cf42ad56401b43976568df0aef0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   moveSpeed: 5
-  attackRange: 1.5
+  attackRange: 3
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   isChasing: 0
+  direction: {x: 0, y: 0}
   rb: {fileID: 0}
+  patrolEnemy: {fileID: 0}
