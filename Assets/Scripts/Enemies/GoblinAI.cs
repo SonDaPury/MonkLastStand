@@ -45,17 +45,17 @@ public class GoblinAI : EnemyAI
             else
             {
                 AttackPlayer();
+                rb.velocity = Vector2.zero;
             }
         }
         else
         {
             StopAttack();
             patrolEnemy.EnemiesMovement();
-            PlayerManager.Instance.playerChangeState.OnTakeHitAnimationEnd();
         }
     }
 
-    protected IEnumerator ContinuousAttack()
+    private IEnumerator ContinuousAttack()
     {
         isAttacking = true;
 
@@ -67,16 +67,16 @@ public class GoblinAI : EnemyAI
         }
     }
 
-    public void StopAttack()
+    private void StopAttack()
     {
-        if (isAttacking)
-        {
-            isAttacking = false;
-            if (attackCoroutine != null)
-            {
-                StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
-            }
-        }
+        if (!isAttacking)
+            return;
+        if (attackCoroutine == null)
+            return;
+
+        isAttacking = false;
+        StopCoroutine(attackCoroutine);
+        PlayerManager.Instance.playerChangeState.PlayerTakeHit(false);
+        attackCoroutine = null;
     }
 }

@@ -16,15 +16,10 @@ public class PlayerTakeHit : MonoBehaviour
         centerOfBody = GameObject.Find("CenterOfBody");
     }
 
-    // void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Enemy")) { }
-    // }
-
     public void TakeHit()
     {
         PlayerManager.Instance.currentHealth -= 10;
         PlayerManager.Instance.rb.velocity = Vector2.zero;
-        PlayerManager.Instance.playerChangeState.PlayerTakeHit();
+        PlayerManager.Instance.playerChangeState.PlayerTakeHit(true);
     }
 }

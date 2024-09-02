@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
     public Rigidbody2D rb;
-    private bool canMove = true;
+    private bool _canMove = true;
 
     public static PlayerManager Instance { get; private set; } // Singleton pattern
 
@@ -43,16 +43,14 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove)
-        {
-            playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
-            playerChangeState.ChangeStateMovementOfPlayer();
-        }
+        if (!_canMove) return;
+        playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
+        playerChangeState.ChangeStateMovementOfPlayer();
     }
 
     public void SetCanMove(bool value)
     {
-        canMove = value;
+        _canMove = value;
     }
 
     public void OnMoveInput(CallbackContext input)

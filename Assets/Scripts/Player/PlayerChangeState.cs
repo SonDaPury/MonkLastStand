@@ -11,16 +11,6 @@ public class PlayerChangeState : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        //Debug.Log(
-        //    "Is Allow Jump: "
-        //        + PlayerManager.Instance.isAllowJump
-        //        + ", velocity: "
-        //        + PlayerManager.Instance.playerHandleInput.rb.velocity
-        //);
-    }
-
     public void ChangeStateMovementOfPlayer()
     {
         if (Mathf.Abs(PlayerManager.Instance.moveInput.x) > 0 && PlayerManager.Instance.isAllowJump)
@@ -55,10 +45,18 @@ public class PlayerChangeState : MonoBehaviour
         }
     }
 
-    public void PlayerTakeHit()
+    public void PlayerTakeHit(bool isTakeHit)
     {
-        _animator.SetTrigger("IsTakeHit");
-        PlayerManager.Instance.SetCanMove(false);
+        if (isTakeHit)
+        {
+            _animator.SetBool("IsTakeHit", true);
+            PlayerManager.Instance.SetCanMove(false);
+        }
+        else
+        {
+            _animator.SetBool("IsTakeHit", false);
+            PlayerManager.Instance.SetCanMove(true);
+        }
     }
 
     public void OnTakeHitAnimationEnd()
