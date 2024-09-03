@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandle : MonoBehaviour
@@ -10,7 +11,6 @@ public class PlayerInputHandle : MonoBehaviour
     public Transform groundCheckRightLeg;
     public LayerMask groundLayer;
     public int maxJumpCount = 2;
-    public int pressSpaceCount = 0;
 
     private void Awake()
     {

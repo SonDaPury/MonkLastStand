@@ -1,10 +1,19 @@
+using System;
 using System.Collections;
+using Enemies;
 using UnityEngine;
 
 public class GoblinAI : EnemyAI
 {
     protected bool isAttacking = false;
     protected Coroutine attackCoroutine;
+    public Animator animator;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        animator = GetComponent<Animator>();
+    }
 
     public override void AttackPlayer()
     {
@@ -62,6 +71,7 @@ public class GoblinAI : EnemyAI
         while (isAttacking)
         {
             PlayerManager.Instance.playerTakeHit.TakeHit();
+            animator.SetTrigger("IsAttack");
 
             yield return new WaitForSeconds(1f);
         }

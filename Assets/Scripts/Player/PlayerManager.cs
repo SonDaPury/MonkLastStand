@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -43,7 +44,8 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_canMove) return;
+        if (!_canMove)
+            return;
         playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
         playerChangeState.ChangeStateMovementOfPlayer();
     }
@@ -65,5 +67,10 @@ public class PlayerManager : MonoBehaviour
         {
             playerHandleInput.SingleJumpAction(jumpForceOnce, input, jumpForceTwice);
         }
+    }
+
+    public void Attack(CallbackContext context)
+    {
+        CombatManager.Instance.Attack(context);
     }
 }

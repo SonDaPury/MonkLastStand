@@ -1,25 +1,36 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Enemies;
 using UnityEngine;
 
-public class PlayerTakeHit : MonoBehaviour
+namespace Player
 {
-    public float knockBackForce = 5f;
-    public float knockBackTime = 0.25f;
-    public GameObject centerOfBody;
-
-    void Awake()
+    public class PlayerTakeHit : MonoBehaviour
     {
-        PlayerManager.Instance.currentHealth = PlayerManager.Instance.maxHealth;
-        centerOfBody = GameObject.Find("CenterOfBody");
-    }
+        public SpriteRenderer spriteRenderer;
+        public Material originalMaterial;
+        public Material flashMaterial;
+        public float flashDuration = 0.1f;
 
-    public void TakeHit()
-    {
-        PlayerManager.Instance.currentHealth -= 10;
-        PlayerManager.Instance.rb.velocity = Vector2.zero;
-        PlayerManager.Instance.playerChangeState.PlayerTakeHit(true);
+        private Color originalColor;
+
+        private void Awake()
+        {
+            PlayerManager.Instance.currentHealth = PlayerManager.Instance.maxHealth;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            originalMaterial = spriteRenderer.material;
+        }
+
+        public void TakeHit()
+        {
+            PlayerManager.Instance.currentHealth -= 10;
+            PlayerManager.Instance.rb.velocity = Vector2.zero;
+            StartCoroutine(FlashEffect());
+        }
+
+        private IEnumerator FlashEffect()
+        {
+            spriteRenderer.material = flashMaterial;
+            yield return new WaitForSeconds(flashDuration);
+            spriteRenderer.material = originalMaterial;
+        }
     }
 }

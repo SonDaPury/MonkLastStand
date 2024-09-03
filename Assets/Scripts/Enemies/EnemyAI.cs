@@ -69,14 +69,9 @@ public class EnemyAI : MonoBehaviour
                 {
                     rb.velocity = direction * moveSpeed;
                 }
-                else
-                {
-                    // rb.velocity = Vector2.zero;
-                }
             }
             else
             {
-                // rb.velocity = Vector2.zero;
                 AttackPlayer();
             }
         }
