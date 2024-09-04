@@ -4,18 +4,17 @@ namespace Enemies
 {
     public class EnemyManager : MonoBehaviour
     {
-        public GameObject skeletonPrefab;
-        public GameObject goblinPrefab;
-        public GameObject flyingEyePrefab;
-        public Vector2[] goblinSpawnPoint;
-        public Vector2[] skeletonSpawnPoint;
-        public Vector2[] flyingEyeSpawnPoint;
         public float spawnDelay = 0f;
+        public GoblinSpawn goblinSpawn;
+        public GoblinManager goblinManager;
 
         public static EnemyManager Instance { get; private set; }
 
-        private void Awake()
+        protected void Awake()
         {
+            goblinSpawn = GetComponent<GoblinSpawn>();
+            goblinManager = GetComponent<GoblinManager>();
+
             if (Instance == null)
             {
                 Instance = this;

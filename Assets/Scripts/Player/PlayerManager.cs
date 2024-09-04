@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerManager : MonoBehaviour
@@ -18,6 +19,16 @@ public class PlayerManager : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
     public Rigidbody2D rb;
+    public InputActionMap playerActionMap;
+    public InputActionAsset inputActions;
+    public InputAction attackAction;
+    public GameObject attackPoint;
+    private AttackCollider attackCollider;
+    public GameObject attackPointLongRange;
+    private AttackLongRangeCollider attackPointLongRangeCollider;
+    public bool isEnemyAttack = true;
+
+    [SerializeField]
     private bool _canMove = true;
 
     public static PlayerManager Instance { get; private set; } // Singleton pattern
@@ -28,6 +39,25 @@ public class PlayerManager : MonoBehaviour
         playerChangeState = GetComponent<PlayerChangeState>();
         playerTakeHit = GetComponent<PlayerTakeHit>();
         rb = GetComponent<Rigidbody2D>();
+        playerActionMap = inputActions.FindActionMap("Player");
+        attackAction = playerActionMap.FindAction("Move");
+        if (attackPoint != null)
+        {
+            attackCollider = attackPoint.GetComponent<AttackCollider>();
+        }
+        else
+        {
+            Debug.LogError("Attack Point is not assigned in the Inspector.");
+        }
+        if (attackPointLongRange != null)
+        {
+            attackPointLongRangeCollider =
+                attackPointLongRange.GetComponent<AttackLongRangeCollider>();
+        }
+        else
+        {
+            Debug.LogError("Attack Point LongRangeCollider is not assigned in the Inspector.");
+        }
 
         if (Instance == null)
         {
@@ -48,6 +78,38 @@ public class PlayerManager : MonoBehaviour
             return;
         playerHandleInput.MovePlayerHorizontal(moveInput, moveSpeed);
         playerChangeState.ChangeStateMovementOfPlayer();
+    }
+
+    public void EnableAttackCollider()
+    {
+        if (attackCollider != null)
+        {
+            attackCollider.EnableCollider();
+        }
+    }
+
+    public void DisableAttackCollider()
+    {
+        if (attackCollider != null)
+        {
+            attackCollider.DisableCollider();
+        }
+    }
+
+    public void EnableAttackLongRangeCollider()
+    {
+        if (attackPointLongRangeCollider != null)
+        {
+            attackPointLongRangeCollider.EnableCollider();
+        }
+    }
+
+    public void DisableAttackLongRangeCollider()
+    {
+        if (attackPointLongRangeCollider != null)
+        {
+            attackPointLongRangeCollider.DisableCollider();
+        }
     }
 
     public void SetCanMove(bool value)

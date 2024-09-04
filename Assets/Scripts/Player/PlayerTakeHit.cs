@@ -22,14 +22,22 @@ namespace Player
         public void TakeHit()
         {
             PlayerManager.Instance.currentHealth -= 10;
-            PlayerManager.Instance.rb.velocity = Vector2.zero;
+            //PlayerManager.Instance.rb.velocity = Vector2.zero;
+            PlayerManager.Instance.playerChangeState._animator.SetBool("IsRunning", false);
+            PlayerManager.Instance.playerChangeState._animator.SetBool("IsJumping", false);
+            PlayerManager.Instance.playerChangeState._animator.SetBool("IsDowning", false);
+            PlayerManager.Instance.playerChangeState._animator.SetTrigger("IsTakeHit");
+
             StartCoroutine(FlashEffect());
         }
 
         private IEnumerator FlashEffect()
         {
             spriteRenderer.material = flashMaterial;
+            PlayerManager.Instance.attackAction.Disable();
+
             yield return new WaitForSeconds(flashDuration);
+            PlayerManager.Instance.attackAction.Enable();
             spriteRenderer.material = originalMaterial;
         }
     }
