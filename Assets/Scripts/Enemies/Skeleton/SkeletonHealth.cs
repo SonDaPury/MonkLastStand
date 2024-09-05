@@ -7,12 +7,14 @@ public class SkeletonHealth : MonoBehaviour
     public SkeletonAi skeletonAi;
     public Rigidbody2D rb;
     public SkeletonHealthBar skeletonHealthBar;
+    public BoxCollider2D boxCollider2D;
 
     private void Awake()
     {
         skeletonAi = GetComponent<SkeletonAi>();
         rb = GetComponent<Rigidbody2D>();
         skeletonHealthBar = GetComponentInChildren<SkeletonHealthBar>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -27,6 +29,7 @@ public class SkeletonHealth : MonoBehaviour
         {
             skeletonAi.animator.SetTrigger("IsDeath");
             rb.velocity = Vector2.zero;
+            boxCollider2D.enabled = false;
             StartCoroutine(DeathCoroutine());
             skeletonHealthBar.enabled = false;
         }

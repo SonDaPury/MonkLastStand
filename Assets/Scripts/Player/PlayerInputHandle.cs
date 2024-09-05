@@ -10,6 +10,7 @@ public class PlayerInputHandle : MonoBehaviour
     public Transform groundCheckLeftLeg;
     public Transform groundCheckRightLeg;
     public LayerMask groundLayer;
+    public LayerMask spikeLayer;
     public int maxJumpCount = 2;
 
     private void Awake()
@@ -70,6 +71,8 @@ public class PlayerInputHandle : MonoBehaviour
     {
         PlayerManager.Instance.isAllowJump =
             Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, groundLayer)
-            || Physics2D.OverlapCircle(groundCheckRightLeg.transform.position, 0.2f, groundLayer);
+            || Physics2D.OverlapCircle(groundCheckRightLeg.transform.position, 0.2f, groundLayer)
+            || Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, spikeLayer)
+            || Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, spikeLayer);
     }
 }

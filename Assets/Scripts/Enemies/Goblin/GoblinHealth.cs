@@ -7,12 +7,14 @@ public class GoblinHealth : MonoBehaviour
     public GoblinAI goblinAI;
     public Rigidbody2D rb;
     public GoblinHealthBar goblinHealthBar;
+    public BoxCollider2D boxCollider2D;
 
     private void Awake()
     {
         goblinAI = GetComponent<GoblinAI>();
         rb = GetComponent<Rigidbody2D>();
         goblinHealthBar = GetComponentInChildren<GoblinHealthBar>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -27,6 +29,7 @@ public class GoblinHealth : MonoBehaviour
         {
             goblinAI.animator.SetTrigger("IsDeath");
             rb.velocity = Vector2.zero;
+            boxCollider2D.enabled = false;
             StartCoroutine(DeathCoroutine());
             goblinHealthBar.enabled = false;
         }

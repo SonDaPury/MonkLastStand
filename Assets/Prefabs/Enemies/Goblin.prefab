@@ -101,8 +101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -4.97, y: 0}
+  m_SizeDelta: {x: -9.94, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3951394993556258955
 CanvasRenderer:
@@ -490,6 +490,7 @@ MonoBehaviour:
   goblinAI: {fileID: 0}
   rb: {fileID: 0}
   goblinHealthBar: {fileID: 0}
+  boxCollider2D: {fileID: 0}
 --- !u!1 &6856860420612633463
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,8 +627,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.26000977, y: 0}
-  m_SizeDelta: {x: 9.48, y: 0}
+  m_AnchoredPosition: {x: -5, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &884884569925238726
 CanvasRenderer:

@@ -59,7 +59,7 @@ public class GoblinAI : EnemyAI
             }
             else
             {
-                if (PlayerManager.Instance.isEnemyAttack)
+                if (PlayerManager.Instance.isEnemyAttack && currentHp > 0)
                 {
                     AttackPlayer();
                     rb.velocity = Vector2.zero;

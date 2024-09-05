@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -8,9 +9,9 @@ namespace Player
         public SpriteRenderer spriteRenderer;
         public Material originalMaterial;
         public Material flashMaterial;
+        public PlayerHealthBar healthBar;
         public float flashDuration = 0.1f;
-
-        private Color originalColor;
+        public Text HPText;
 
         private void Awake()
         {
@@ -19,10 +20,19 @@ namespace Player
             originalMaterial = spriteRenderer.material;
         }
 
+        private void Start()
+        {
+            healthBar.SetMaxHealth(PlayerManager.Instance.maxHealth);
+            HPText.text =
+                PlayerManager.Instance.currentHealth + " / " + PlayerManager.Instance.maxHealth;
+        }
+
         public void TakeHit()
         {
             PlayerManager.Instance.currentHealth -= 10;
-            //PlayerManager.Instance.rb.velocity = Vector2.zero;
+            healthBar.SetHealth(PlayerManager.Instance.currentHealth);
+            HPText.text =
+                PlayerManager.Instance.currentHealth + " / " + PlayerManager.Instance.maxHealth;
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsRunning", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsJumping", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsDowning", false);
