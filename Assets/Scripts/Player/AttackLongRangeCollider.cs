@@ -6,10 +6,16 @@ using UnityEngine;
 public class AttackLongRangeCollider : MonoBehaviour
 {
     public Collider2D attackColliderLongRange;
+    public SkeletonManager skeletonManager;
+
+    private void Awake()
+    {
+        skeletonManager = FindAnyObjectByType<SkeletonManager>();
+        attackColliderLongRange = GetComponent<Collider2D>();
+    }
 
     private void Start()
     {
-        attackColliderLongRange = GetComponent<Collider2D>();
         attackColliderLongRange.enabled = false;
     }
 
@@ -50,6 +56,18 @@ public class AttackLongRangeCollider : MonoBehaviour
                 goblinAI.currentHp -= 30;
 
                 var animator = goblin.GetComponent<Animator>();
+                animator.SetTrigger("IsTakeHit");
+            }
+        }
+
+        foreach (var skeleton in skeletonManager.skeletonSpawn.skeletonsList)
+        {
+            if (collision.gameObject.Equals(skeleton))
+            {
+                var skeletonAI = skeleton.GetComponent<SkeletonAi>();
+                skeletonAI.currentHp -= 30;
+
+                var animator = skeleton.GetComponent<Animator>();
                 animator.SetTrigger("IsTakeHit");
             }
         }

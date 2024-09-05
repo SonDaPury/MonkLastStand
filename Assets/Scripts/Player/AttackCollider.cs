@@ -9,12 +9,14 @@ public class AttackCollider : MonoBehaviour
     public GameObject goblinPrefab;
     public GoblinManager goblinManager;
     public EnemyManager enemyManager;
+    public SkeletonManager skeletonManager;
 
     private void Awake()
     {
         attackCollider = GetComponent<Collider2D>();
         goblinManager = goblinPrefab.GetComponent<GoblinManager>();
         enemyManager = FindAnyObjectByType<EnemyManager>();
+        skeletonManager = FindAnyObjectByType<SkeletonManager>();
     }
 
     private void Start()
@@ -59,6 +61,17 @@ public class AttackCollider : MonoBehaviour
                 goblinAI.currentHp -= 10;
 
                 var animator = goblin.GetComponent<Animator>();
+                animator.SetTrigger("IsTakeHit");
+            }
+        }
+
+        foreach (var skeleton in skeletonManager.skeletonSpawn.skeletonsList)
+        {
+            if (collision.gameObject.Equals(skeleton))
+            {
+                var skeletonAI = skeleton.GetComponent<SkeletonAi>();
+                skeletonAI.currentHp -= 10;
+                var animator = skeleton.GetComponent<Animator>();
                 animator.SetTrigger("IsTakeHit");
             }
         }

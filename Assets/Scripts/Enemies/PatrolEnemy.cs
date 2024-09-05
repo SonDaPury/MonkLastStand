@@ -5,8 +5,9 @@ namespace Enemies
 {
     public class PatrolEnemy : MonoBehaviour
     {
-        [SerializeField]
         public Rigidbody2D rg;
+        public bool isFaceRight = true;
+        public float moveSpeedEnemy = 3f;
 
         [SerializeField]
         protected Vector2 moveDirection = Vector2.right;
@@ -16,8 +17,6 @@ namespace Enemies
 
         [SerializeField]
         protected LayerMask groundLayer;
-        public bool isFaceRight = true;
-        public float moveSpeedEnemy = 3f;
 
         private void Awake()
         {
@@ -43,7 +42,7 @@ namespace Enemies
         }
 
         // Check xem enemy có ở edge của platform không
-        protected bool IsEgde()
+        public bool IsEgde()
         {
             return Physics2D.Raycast(groundCheck.position, -transform.up, 1f, groundLayer).collider
                 == false;

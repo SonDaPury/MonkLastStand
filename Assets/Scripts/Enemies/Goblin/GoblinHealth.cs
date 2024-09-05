@@ -6,11 +6,19 @@ public class GoblinHealth : MonoBehaviour
 {
     public GoblinAI goblinAI;
     public Rigidbody2D rb;
+    public GoblinHealthBar goblinHealthBar;
 
     private void Awake()
     {
         goblinAI = GetComponent<GoblinAI>();
         rb = GetComponent<Rigidbody2D>();
+        goblinHealthBar = GetComponentInChildren<GoblinHealthBar>();
+    }
+
+    private void Start()
+    {
+        goblinHealthBar.UpdateHealthBar(goblinAI.currentHp, goblinAI.maxHp);
+        goblinHealthBar.enabled = true;
     }
 
     private void Update()
@@ -19,8 +27,13 @@ public class GoblinHealth : MonoBehaviour
         {
             goblinAI.animator.SetTrigger("IsDeath");
             rb.velocity = Vector2.zero;
-            Debug.Log(rb.velocity);
             StartCoroutine(DeathCoroutine());
+            goblinHealthBar.enabled = false;
+        }
+        else
+        {
+            goblinHealthBar.enabled = true;
+            goblinHealthBar.UpdateHealthBar(goblinAI.currentHp, goblinAI.maxHp);
         }
     }
 

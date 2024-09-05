@@ -20,7 +20,7 @@ public class EnemyAI : MonoBehaviour
     protected LayerMask playerLayer;
 
     [SerializeField]
-    protected bool isChasing = false;
+    public bool isChasing = false;
 
     [SerializeField]
     protected Vector2 direction;
@@ -86,11 +86,11 @@ public class EnemyAI : MonoBehaviour
         RaycastHit2D detectPlayer = Physics2D.Raycast(
             transform.position,
             directionToPlayer,
-            7f,
+            4f,
             playerLayer
         );
 
-        Debug.DrawRay(transform.position, directionToPlayer * 7f, Color.red);
+        Debug.DrawRay(transform.position, directionToPlayer * 4f, Color.red);
 
         if (detectPlayer.collider != null && IsPlayerInDetectionArea())
         {
