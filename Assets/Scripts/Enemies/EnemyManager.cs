@@ -4,7 +4,6 @@ namespace Enemies
 {
     public class EnemyManager : MonoBehaviour
     {
-        public float spawnDelay = 0f;
         public GoblinSpawn goblinSpawn;
         public GoblinManager goblinManager;
 

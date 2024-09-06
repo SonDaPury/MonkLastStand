@@ -43,6 +43,17 @@ public class SkeletonHealth : MonoBehaviour
     public IEnumerator DeathCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        SkeletonSpawn.Instance.OnSkeletonDeath(gameObject);
+    }
+
+    public void Respawn()
+    {
+        skeletonAi.currentHp = skeletonAi.maxHp;
+        skeletonHealthBar.UpdateHealthBar(skeletonAi.currentHp, skeletonAi.maxHp);
+        skeletonHealthBar.enabled = true;
+        boxCollider2D.enabled = true;
+        rb.velocity = Vector2.zero;
+        gameObject.SetActive(true);
     }
 }

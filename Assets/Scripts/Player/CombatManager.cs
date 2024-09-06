@@ -9,11 +9,15 @@ public class CombatManager : MonoBehaviour
     public bool inputReceived;
     private bool canAttack = true;
     public float attackCooldown = 1f;
+    public bool isAttacking = false;
+    public PlayerStamina playerStamina;
 
     public static CombatManager Instance { get; private set; }
 
     private void Awake()
     {
+        playerStamina = FindAnyObjectByType<PlayerStamina>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -27,12 +31,18 @@ public class CombatManager : MonoBehaviour
     // Attack
     public void Attack(InputAction.CallbackContext context)
     {
-        if (context.performed && canAttack)
+        if (
+            context.performed
+            && canAttack
+            && playerStamina.currentStamina >= playerStamina.staminaDrainRate
+        )
         {
             if (canReceiveInput)
             {
+                isAttacking = true;
                 inputReceived = true;
                 canReceiveInput = false;
+                playerStamina.DrainStamina();
             }
             else
             {
@@ -40,6 +50,12 @@ public class CombatManager : MonoBehaviour
             }
 
             StartCoroutine(AttackCooldownRoutine());
+        }
+
+        if (context.canceled)
+        {
+            isAttacking = false;
+            playerStamina.isStaminaRegen = true;
         }
     }
 

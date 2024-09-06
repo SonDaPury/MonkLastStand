@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,23 @@ namespace Enemies
     public class GoblinSpawn : MonoBehaviour
     {
         public List<GameObject> goblinsList;
+        public float respawnTime = 10f;
+        public static GoblinSpawn Instance { get; private set; }
 
         [SerializeField]
         protected GameObject goblinGameObject;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("GoblinSpawn đã được khởi tạo.");
+            }
+        }
 
         private void Start()
         {
@@ -33,6 +48,18 @@ namespace Enemies
                 golblinInstance.transform.parent = holder.transform;
                 goblinsList.Add(golblinInstance);
             }
+        }
+
+        // Hàm xử lý khi Goblin chết
+        public void OnGoblinDeath(GameObject goblin)
+        {
+            StartCoroutine(RespawnGoblin(goblin));
+        }
+
+        private IEnumerator RespawnGoblin(GameObject goblin)
+        {
+            yield return new WaitForSeconds(respawnTime);
+            goblin.GetComponent<GoblinHealth>().Respawn();
         }
     }
 }

@@ -7,6 +7,8 @@ public class SkeletonSpawn : MonoBehaviour
 {
     public List<GameObject> skeletonsList;
     public SkeletonManager skeletonManager;
+    public float respawnTime = 10f;
+    public static SkeletonSpawn Instance { get; private set; }
 
     [SerializeField]
     protected GameObject skeletonGameObject;
@@ -14,6 +16,14 @@ public class SkeletonSpawn : MonoBehaviour
     private void Awake()
     {
         skeletonManager = GetComponent<SkeletonManager>();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("GoblinSpawn đã được khởi tạo.");
+        }
     }
 
     private void Start()
@@ -39,5 +49,17 @@ public class SkeletonSpawn : MonoBehaviour
             skeletonInstance.transform.parent = holder.transform;
             skeletonsList.Add(skeletonInstance);
         }
+    }
+
+    // Hàm xử lý khi Goblin chết
+    public void OnSkeletonDeath(GameObject skeleton)
+    {
+        StartCoroutine(RespawnSkeleton(skeleton));
+    }
+
+    private IEnumerator RespawnSkeleton(GameObject skeleton)
+    {
+        yield return new WaitForSeconds(respawnTime);
+        skeleton.GetComponent<SkeletonHealth>().Respawn();
     }
 }

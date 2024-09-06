@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 
 public class GoblinHealth : MonoBehaviour
@@ -43,6 +44,18 @@ public class GoblinHealth : MonoBehaviour
     public IEnumerator DeathCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        GoblinSpawn.Instance.OnGoblinDeath(gameObject);
+    }
+
+    // Hồi sinh lại Goblin
+    public void Respawn()
+    {
+        goblinAI.currentHp = goblinAI.maxHp;
+        goblinHealthBar.UpdateHealthBar(goblinAI.currentHp, goblinAI.maxHp);
+        goblinHealthBar.enabled = true;
+        boxCollider2D.enabled = true;
+        rb.velocity = Vector2.zero;
+        gameObject.SetActive(true);
     }
 }
