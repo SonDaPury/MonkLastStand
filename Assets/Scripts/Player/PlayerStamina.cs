@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerStamina : MonoBehaviour
 {
-    public float maxStamina = 100f;
     public float currentStamina;
     public float staminaDrainRate = 10f; // Số lượng stamina mất khi tấn công
     public float staminaRegenRate = 5f; // Số lượng stamina hồi phục mỗi giây
@@ -18,8 +17,8 @@ public class PlayerStamina : MonoBehaviour
 
     private void Start()
     {
-        currentStamina = maxStamina;
-        staminaSlider.maxValue = maxStamina;
+        currentStamina = PlayerStats.Instance.stamina;
+        staminaSlider.maxValue = PlayerStats.Instance.stamina;
         staminaSlider.value = currentStamina;
     }
 
@@ -27,7 +26,7 @@ public class PlayerStamina : MonoBehaviour
     {
         if (
             animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")
-            && currentStamina < maxStamina
+            && currentStamina < PlayerStats.Instance.stamina
             && isStaminaRegen
         )
         {
@@ -63,12 +62,12 @@ public class PlayerStamina : MonoBehaviour
     {
         yield return new WaitForSeconds(staminaRegenDelay);
 
-        while (currentStamina < maxStamina)
+        while (currentStamina < PlayerStats.Instance.stamina)
         {
             currentStamina += staminaRegenRate * Time.deltaTime;
             staminaSlider.value = currentStamina;
 
-            currentStamina = Mathf.Min(currentStamina, maxStamina);
+            currentStamina = Mathf.Min(currentStamina, PlayerStats.Instance.stamina);
 
             yield return null;
         }

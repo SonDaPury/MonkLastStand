@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,24 +16,31 @@ namespace Player
 
         private void Awake()
         {
-            PlayerManager.Instance.currentHealth = PlayerManager.Instance.maxHealth;
             spriteRenderer = GetComponent<SpriteRenderer>();
             originalMaterial = spriteRenderer.material;
         }
 
         private void Start()
         {
-            healthBar.SetMaxHealth(PlayerManager.Instance.maxHealth);
+            PlayerManager.Instance.currentHealth = PlayerStats.Instance.health;
+            healthBar.SetMaxHealth(PlayerStats.Instance.health);
             HPText.text =
-                PlayerManager.Instance.currentHealth + " / " + PlayerManager.Instance.maxHealth;
+                PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
         }
 
-        public void TakeHit()
+        public void TakeHit(string typeEnemy)
         {
-            PlayerManager.Instance.currentHealth -= 10;
+            if (typeEnemy.Equals("Goblin") || typeEnemy.Equals("Spike"))
+            {
+                PlayerManager.Instance.currentHealth -= 10;
+            }
+            else if (typeEnemy.Equals("Skeleton"))
+            {
+                PlayerManager.Instance.currentHealth -= 20;
+            }
             healthBar.SetHealth(PlayerManager.Instance.currentHealth);
             HPText.text =
-                PlayerManager.Instance.currentHealth + " / " + PlayerManager.Instance.maxHealth;
+                PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsRunning", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsJumping", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsDowning", false);

@@ -172,7 +172,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   groundCheck: {fileID: 1171708896527461556}
 --- !u!61 &1514454067523051447
 BoxCollider2D:

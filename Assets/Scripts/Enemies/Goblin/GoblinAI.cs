@@ -21,6 +21,14 @@ public class GoblinAI : EnemyAI
         currentHp = maxHp;
     }
 
+    private void Update()
+    {
+        if (currentHp <= 0)
+        {
+            PlayerStats.Instance.AddExperience(30);
+        }
+    }
+
     public override void AttackPlayer()
     {
         if (!isAttacking)
@@ -89,7 +97,7 @@ public class GoblinAI : EnemyAI
             animator.SetTrigger("IsAttack");
 
             yield return new WaitForSeconds(1f);
-            PlayerManager.Instance.playerTakeHit.TakeHit();
+            PlayerManager.Instance.playerTakeHit.TakeHit("Goblin");
         }
     }
 
@@ -107,6 +115,6 @@ public class GoblinAI : EnemyAI
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerManager.Instance.playerTakeHit.TakeHit();
+        PlayerManager.Instance.playerTakeHit.TakeHit("Goblin");
     }
 }

@@ -428,7 +428,7 @@ MonoBehaviour:
   groundCheck: {fileID: 2891078672889288099}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
 --- !u!95 &7483262149838176649
 Animator:
   serializedVersion: 5

@@ -20,6 +20,14 @@ public class SkeletonAi : EnemyAI
         currentHp = maxHp;
     }
 
+    private void Update()
+    {
+        if (currentHp <= 0)
+        {
+            PlayerStats.Instance.AddExperience(30);
+        }
+    }
+
     public override void AttackPlayer()
     {
         if (!isAttacking)
@@ -88,7 +96,7 @@ public class SkeletonAi : EnemyAI
             animator.SetTrigger("IsAttack");
 
             yield return new WaitForSeconds(1f);
-            PlayerManager.Instance.playerTakeHit.TakeHit();
+            PlayerManager.Instance.playerTakeHit.TakeHit("Skeleton");
         }
     }
 
@@ -106,6 +114,6 @@ public class SkeletonAi : EnemyAI
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerManager.Instance.playerTakeHit.TakeHit();
+        PlayerManager.Instance.playerTakeHit.TakeHit("Skeleton");
     }
 }

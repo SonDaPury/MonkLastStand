@@ -37,7 +37,7 @@ public class SpikeTrap : MonoBehaviour
     {
         while (isPlayerInTrap)
         {
-            PlayerManager.Instance.playerTakeHit.TakeHit();
+            PlayerManager.Instance.playerTakeHit.TakeHit("Spike");
             yield return new WaitForSeconds(damageInterval);
         }
     }

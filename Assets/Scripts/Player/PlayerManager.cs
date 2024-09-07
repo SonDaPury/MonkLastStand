@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -16,7 +17,6 @@ public class PlayerManager : MonoBehaviour
     public PlayerTakeHit playerTakeHit; // Get PlayerTakeHit Instance
     public int jumpCount = 0;
     public bool isAllowJump;
-    public int maxHealth = 100;
     public int currentHealth;
     public Rigidbody2D rb;
     public InputActionMap playerActionMap;
@@ -27,6 +27,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject attackPointLongRange;
     private AttackLongRangeCollider attackPointLongRangeCollider;
     public bool isEnemyAttack = true;
+    public PauseWhenOpenPanel pauseWhenOpenPanel;
 
     [SerializeField]
     private bool _canMove = true;
@@ -41,6 +42,7 @@ public class PlayerManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerActionMap = inputActions.FindActionMap("Player");
         attackAction = playerActionMap.FindAction("Move");
+        pauseWhenOpenPanel = FindObjectOfType<PauseWhenOpenPanel>();
         if (attackPoint != null)
         {
             attackCollider = attackPoint.GetComponent<AttackCollider>();
@@ -134,5 +136,20 @@ public class PlayerManager : MonoBehaviour
     public void Attack(CallbackContext context)
     {
         CombatManager.Instance.Attack(context);
+    }
+
+    public void OpenPauseMenu(CallbackContext input)
+    {
+        if (input.started)
+        {
+            if (PauseWhenOpenPanel.gameIsPaused)
+            {
+                pauseWhenOpenPanel.Resume();
+            }
+            else
+            {
+                pauseWhenOpenPanel.Pause();
+            }
+        }
     }
 }
