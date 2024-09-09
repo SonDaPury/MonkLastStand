@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - PointCheck
   - Spike
+  - Chest
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Key
   - Ground
   - Spike
   - 

@@ -9,19 +9,31 @@ public class PlayerStats : MonoBehaviour
     public int expToLevelUp = 100;
     public int health = 100;
     public int stamina = 100;
+    public int def = 5;
     public int attackDamage = 10;
     public int skillPoints = 0;
-    private int baseHealth = 100;
-    private int baseStamina = 100;
-    private int baseAttackPower = 10;
+    public PlayerStamina playerStamina;
+    public PlayerHealthBar playerHealthBar;
     private int healthPointsAllocated = 0;
     private int staminaPointsAllocated = 0;
     private int attackDamagePointsAllocated = 0;
+
+    [SerializeField]
+    private int baseHealth = 100;
+
+    [SerializeField]
+    private int baseStamina = 100;
+
+    [SerializeField]
+    private int baseAttackPower = 10;
 
     public static PlayerStats Instance { get; private set; }
 
     void Awake()
     {
+        playerStamina = FindAnyObjectByType<PlayerStamina>();
+        playerHealthBar = FindAnyObjectByType<PlayerHealthBar>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -60,7 +72,7 @@ public class PlayerStats : MonoBehaviour
         exp += amount * Time.deltaTime;
     }
 
-    public void AllocatePoints(string stat, int points)
+    public void AllocatePoints(string stat)
     {
         if (skillPoints > 0)
         {
@@ -68,14 +80,22 @@ public class PlayerStats : MonoBehaviour
             {
                 case "health":
                     health += 10;
+                    PlayerManager.Instance.currentHealth = health;
+                    playerHealthBar.slider.value = health;
                     healthPointsAllocated++;
                     break;
                 case "stamina":
                     stamina += 10;
                     staminaPointsAllocated++;
+                    playerStamina.staminaSlider.value = stamina;
+                    playerStamina.currentStamina = stamina;
                     break;
                 case "attack":
                     attackDamage += 2;
+                    attackDamagePointsAllocated++;
+                    break;
+                case "defense":
+                    def += 1;
                     attackDamagePointsAllocated++;
                     break;
             }
@@ -98,5 +118,30 @@ public class PlayerStats : MonoBehaviour
         healthPointsAllocated = 0;
         staminaPointsAllocated = 0;
         attackDamagePointsAllocated = 0;
+
+        PlayerManager.Instance.currentHealth = health;
+        playerStamina.currentStamina = stamina;
+        playerHealthBar.slider.value = health;
+        playerStamina.staminaSlider.value = stamina;
+    }
+
+    public void IncreaseHealth()
+    {
+        AllocatePoints("health");
+    }
+
+    public void IncreaseStamina()
+    {
+        AllocatePoints("stamina");
+    }
+
+    public void IncreaseAttack()
+    {
+        AllocatePoints("attack");
+    }
+
+    public void IncreaseDefense()
+    {
+        AllocatePoints("defense");
     }
 }

@@ -42,7 +42,11 @@ public class SkeletonAi : EnemyAI
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-            if (distanceToPlayer > attackRange)
+            if (
+                distanceToPlayer > attackRange
+                && !patrolEnemy.IsEgde()
+                && !patrolEnemy.IsWallCollision()
+            )
             {
                 Vector2 directionPlayer = (player.position - transform.position).normalized;
                 direction = new Vector2(directionPlayer.x, 0f);
@@ -66,7 +70,12 @@ public class SkeletonAi : EnemyAI
             }
             else
             {
-                if (PlayerManager.Instance.isEnemyAttack && currentHp > 0)
+                if (
+                    PlayerManager.Instance.isEnemyAttack
+                    && currentHp > 0
+                    && !patrolEnemy.IsEgde()
+                    && !patrolEnemy.IsWallCollision()
+                )
                 {
                     AttackPlayer();
                     rb.velocity = Vector2.zero;

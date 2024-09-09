@@ -8,15 +8,13 @@ namespace Enemies
         public Rigidbody2D rg;
         public bool isFaceRight = true;
         public float moveSpeedEnemy = 3f;
+        public LayerMask groundLayer;
 
         [SerializeField]
         protected Vector2 moveDirection = Vector2.right;
 
         [SerializeField]
         protected Transform groundCheck;
-
-        [SerializeField]
-        protected LayerMask groundLayer;
 
         private void Awake()
         {
@@ -49,7 +47,7 @@ namespace Enemies
         }
 
         // Check xem enemy có ở edge của platform không
-        protected bool IsWallCollision()
+        public bool IsWallCollision()
         {
             return Physics2D.Raycast(groundCheck.position, transform.right, 1f, groundLayer)
                 == true;

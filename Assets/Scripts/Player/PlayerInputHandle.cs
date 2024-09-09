@@ -12,6 +12,8 @@ public class PlayerInputHandle : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask spikeLayer;
     public int maxJumpCount = 2;
+    public Chest currentChest;
+    public Door currentDoor;
 
     private void Awake()
     {
@@ -67,12 +69,59 @@ public class PlayerInputHandle : MonoBehaviour
         }
     }
 
-    public void CheckIsAllowJump()
+    private void CheckIsAllowJump()
     {
         PlayerManager.Instance.isAllowJump =
             Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, groundLayer)
             || Physics2D.OverlapCircle(groundCheckRightLeg.transform.position, 0.2f, groundLayer)
             || Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, spikeLayer)
             || Physics2D.OverlapCircle(groundCheckLeftLeg.transform.position, 0.2f, spikeLayer);
+    }
+
+    public void OnOpenChest(CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (currentChest != null && currentChest.isPlayerInRange)
+            {
+                currentChest.OpenChest();
+            }
+            else if (currentDoor != null && currentDoor.isPlayerInDoorRange)
+            {
+                currentDoor.OpenDoor();
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Chest"))
+        {
+            currentChest = other.GetComponent<Chest>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Chest"))
+        {
+            currentChest = null;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Door"))
+        {
+            currentDoor = other.gameObject.GetComponent<Door>();
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Door"))
+        {
+            currentDoor = null;
+        }
     }
 }

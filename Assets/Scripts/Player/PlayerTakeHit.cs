@@ -28,19 +28,38 @@ namespace Player
                 PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
         }
 
+        private void Update()
+        {
+            HPText.text =
+                PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
+        }
+
         public void TakeHit(string typeEnemy)
         {
+            int damage = 0;
+
             if (typeEnemy.Equals("Goblin") || typeEnemy.Equals("Spike"))
             {
-                PlayerManager.Instance.currentHealth -= 10;
+                damage = 20;
             }
             else if (typeEnemy.Equals("Skeleton"))
             {
-                PlayerManager.Instance.currentHealth -= 20;
+                damage = 35;
             }
+
+            int finalDamage = damage - PlayerStats.Instance.def;
+
+            if (finalDamage <= 0)
+            {
+                finalDamage = 1;
+            }
+
+            PlayerManager.Instance.currentHealth -= finalDamage;
+
             healthBar.SetHealth(PlayerManager.Instance.currentHealth);
-            HPText.text =
-                PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
+            // HPText.text =
+            //     PlayerManager.Instance.currentHealth + " / " + PlayerStats.Instance.health;
+
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsRunning", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsJumping", false);
             PlayerManager.Instance.playerChangeState._animator.SetBool("IsDowning", false);
