@@ -58,10 +58,14 @@ public class AttackCollider : MonoBehaviour
             if (collision.gameObject.Equals(goblin))
             {
                 var goblinAI = goblin.GetComponent<GoblinAI>();
-                goblinAI.currentHp -= PlayerStats.Instance.attackDamage;
+                var patrolEnemies = goblin.GetComponent<PatrolEnemy>();
+                if (!patrolEnemies.IsEgde() && !patrolEnemies.IsWallCollision())
+                {
+                    goblinAI.currentHp -= PlayerStats.Instance.attackDamage;
 
-                var animator = goblin.GetComponent<Animator>();
-                animator.SetTrigger("IsTakeHit");
+                    var animator = goblin.GetComponent<Animator>();
+                    animator.SetTrigger("IsTakeHit");
+                }
             }
         }
 
@@ -70,9 +74,13 @@ public class AttackCollider : MonoBehaviour
             if (collision.gameObject.Equals(skeleton))
             {
                 var skeletonAI = skeleton.GetComponent<SkeletonAi>();
-                skeletonAI.currentHp -= PlayerStats.Instance.attackDamage;
-                var animator = skeleton.GetComponent<Animator>();
-                animator.SetTrigger("IsTakeHit");
+                var patrolEnemy = skeleton.GetComponent<PatrolEnemy>();
+                if (!patrolEnemy.IsEgde() && !patrolEnemy.IsWallCollision())
+                {
+                    skeletonAI.currentHp -= PlayerStats.Instance.attackDamage;
+                    var animator = skeleton.GetComponent<Animator>();
+                    animator.SetTrigger("IsTakeHit");
+                }
             }
         }
     }

@@ -53,10 +53,20 @@ public class AttackLongRangeCollider : MonoBehaviour
             if (collision.gameObject.Equals(goblin))
             {
                 var goblinAI = goblin.GetComponent<GoblinAI>();
-                goblinAI.currentHp -= 30;
+                var patrolGoblin = goblin.GetComponent<PatrolEnemy>();
 
-                var animator = goblin.GetComponent<Animator>();
-                animator.SetTrigger("IsTakeHit");
+                if (!patrolGoblin.IsEgde() && !patrolGoblin.IsWallCollision())
+                {
+                    goblinAI.currentHp -= 30;
+
+                    var animator = goblin.GetComponent<Animator>();
+                    animator.SetTrigger("IsTakeHit");
+                }
+
+                //goblinAI.currentHp -= 30;
+
+                //var animator = goblin.GetComponent<Animator>();
+                //animator.SetTrigger("IsTakeHit");
             }
         }
 
@@ -65,10 +75,20 @@ public class AttackLongRangeCollider : MonoBehaviour
             if (collision.gameObject.Equals(skeleton))
             {
                 var skeletonAI = skeleton.GetComponent<SkeletonAi>();
-                skeletonAI.currentHp -= 30;
+                var patrolSkeleton = skeleton.GetComponent<PatrolEnemy>();
 
-                var animator = skeleton.GetComponent<Animator>();
-                animator.SetTrigger("IsTakeHit");
+                if (!patrolSkeleton.IsEgde() && !patrolSkeleton.IsWallCollision())
+                {
+                    skeletonAI.currentHp -= 30;
+
+                    var animator = skeleton.GetComponent<Animator>();
+                    animator.SetTrigger("IsTakeHit");
+                }
+
+                //    skeletonAI.currentHp -= 30;
+
+                //    var animator = skeleton.GetComponent<Animator>();
+                //    animator.SetTrigger("IsTakeHit");
             }
         }
     }
