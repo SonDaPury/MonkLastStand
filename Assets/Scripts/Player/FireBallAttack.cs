@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,18 +10,40 @@ namespace Player
     {
         public Transform fireballPosition;
         public GameObject fireballPrefab;
+        public GameObject cooldownQ;
+        public TextMeshProUGUI textCooldownQ;
         public float cooldownTime = 2f;
+        public float currentCooldownTime = 0f;
         private bool isCooldown = false;
+
+        private void Update()
+        {
+            if (isCooldown)
+            {
+                cooldownQ.SetActive(true);
+                currentCooldownTime -= Time.deltaTime;
+                textCooldownQ.text = currentCooldownTime.ToString("F0");
+            }
+            else if (!isCooldown)
+            {
+                cooldownQ.SetActive(false);
+            }
+        }
 
         public void OnFireBallAttack(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                if (!isCooldown)
+                if (!isCooldown && CombatManager.Instance.playerStamina.currentStamina >= 25f)
                 {
                     ShootFireBall();
+                    currentCooldownTime = cooldownTime;
                     StartCoroutine(CooldownRoutine());
                 }
+            }
+            if (context.canceled)
+            {
+                CombatManager.Instance.playerStamina.isStaminaRegen = true;
             }
         }
 
@@ -34,6 +57,7 @@ namespace Player
         private void ShootFireBall()
         {
             Instantiate(fireballPrefab, fireballPosition.position, fireballPosition.rotation);
+            CombatManager.Instance.playerStamina.DrainStamina(25f);
         }
     }
 }

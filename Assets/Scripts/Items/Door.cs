@@ -36,7 +36,7 @@ public class Door : MonoBehaviour
         }
     }
 
-    private IEnumerator MoveDoor(Vector3 start, Vector3 end)
+    public IEnumerator MoveDoor(Vector3 start, Vector3 end)
     {
         float elapsedTime = 0f;
         while (elapsedTime < openTime)

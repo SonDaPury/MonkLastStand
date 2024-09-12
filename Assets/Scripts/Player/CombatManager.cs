@@ -42,7 +42,7 @@ public class CombatManager : MonoBehaviour
                 isAttacking = true;
                 inputReceived = true;
                 canReceiveInput = false;
-                playerStamina.DrainStamina();
+                playerStamina.DrainStamina(10f);
             }
             else
             {

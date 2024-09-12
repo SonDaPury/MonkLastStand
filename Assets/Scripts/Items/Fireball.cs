@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 
 public class Fireball : MonoBehaviour
@@ -8,10 +9,12 @@ public class Fireball : MonoBehaviour
     public float fireballSpeed = 10f;
     public GameObject impactEffect;
     private Rigidbody2D rb;
+    public SkeletonManager skeletonManager;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        skeletonManager = FindAnyObjectByType<SkeletonManager>();
     }
 
     private void Start()
@@ -30,6 +33,30 @@ public class Fireball : MonoBehaviour
             var fireballImpact = Instantiate(impactEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
             Destroy(fireballImpact, 0.25f);
+        }
+
+        foreach (var goblin in EnemyManager.Instance.goblinSpawn.goblinsList)
+        {
+            if (collision.gameObject.Equals(goblin))
+            {
+                var goblinAI = goblin.GetComponent<GoblinAI>();
+                goblinAI.currentHp -= PlayerStats.Instance.fireballDamage;
+
+                var animator = goblin.GetComponent<Animator>();
+                animator.SetTrigger("IsTakeHit");
+            }
+        }
+
+        foreach (var skeleton in skeletonManager.skeletonSpawn.skeletonsList)
+        {
+            if (collision.gameObject.Equals(skeleton))
+            {
+                var skeletonAI = skeleton.GetComponent<SkeletonAi>();
+
+                skeletonAI.currentHp -= PlayerStats.Instance.fireballDamage;
+                var animator = skeleton.GetComponent<Animator>();
+                animator.SetTrigger("IsTakeHit");
+            }
         }
     }
 }

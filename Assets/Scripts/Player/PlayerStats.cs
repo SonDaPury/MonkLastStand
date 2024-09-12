@@ -17,15 +17,11 @@ public class PlayerStats : MonoBehaviour
     private int healthPointsAllocated = 0;
     private int staminaPointsAllocated = 0;
     private int attackDamagePointsAllocated = 0;
-
-    [SerializeField]
-    private int baseHealth = 100;
-
-    [SerializeField]
-    private int baseStamina = 100;
-
-    [SerializeField]
-    private int baseAttackPower = 10;
+    public int fireballDamage = 50;
+    public int baseHealth = 100;
+    public int baseStamina = 100;
+    public int baseAttackPower = 10;
+    public int baseDef = 5;
 
     public static PlayerStats Instance { get; private set; }
 
@@ -110,6 +106,7 @@ public class PlayerStats : MonoBehaviour
         health = baseHealth;
         stamina = baseStamina;
         attackDamage = baseAttackPower;
+        def = baseDef;
 
         // Trả lại toàn bộ điểm cộng cho người chơi
         skillPoints += healthPointsAllocated + staminaPointsAllocated + attackDamagePointsAllocated;

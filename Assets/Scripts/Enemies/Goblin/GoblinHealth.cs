@@ -33,6 +33,7 @@ public class GoblinHealth : MonoBehaviour
             boxCollider2D.enabled = false;
             StartCoroutine(DeathCoroutine());
             goblinHealthBar.enabled = false;
+            goblinHealthBar.UpdateHealthBar(0, goblinAI.maxHp);
         }
         else
         {

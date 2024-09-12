@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerStamina : MonoBehaviour
 {
     public float currentStamina;
+
     public float staminaDrainRate = 10f; // Số lượng stamina mất khi tấn công
     public float staminaRegenRate = 5f; // Số lượng stamina hồi phục mỗi giây
     public float staminaRegenDelay = 2f; // Thời gian chờ trước khi stamina bắt đầu hồi phục
@@ -34,8 +35,9 @@ public class PlayerStamina : MonoBehaviour
         }
     }
 
-    public void DrainStamina()
+    public void DrainStamina(float sta)
     {
+        staminaDrainRate = sta;
         isStaminaRegen = false;
         if (currentStamina >= staminaDrainRate)
         {

@@ -30,6 +30,7 @@ public class SkeletonHealth : MonoBehaviour
             skeletonAi.animator.SetTrigger("IsDeath");
             rb.velocity = Vector2.zero;
             boxCollider2D.enabled = false;
+            skeletonHealthBar.UpdateHealthBar(0, skeletonAi.maxHp);
             StartCoroutine(DeathCoroutine());
             skeletonHealthBar.enabled = false;
         }

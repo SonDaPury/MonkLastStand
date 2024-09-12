@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireballSpeed: 15
   impactEffect: {fileID: 1053796780321178647, guid: 065d1b2a5ac9ddf4a9f809e2fadaf4a5, type: 3}
+  skeletonManager: {fileID: 0}
 --- !u!50 &-7621015895272296782
 Rigidbody2D:
   serializedVersion: 4
