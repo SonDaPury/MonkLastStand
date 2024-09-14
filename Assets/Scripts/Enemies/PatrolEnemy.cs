@@ -46,7 +46,7 @@ namespace Enemies
                 == false;
         }
 
-        // Check xem enemy có ở edge của platform không
+        // Check xem enemy có ở tường của platform không
         public bool IsWallCollision()
         {
             return Physics2D.Raycast(groundCheck.position, transform.right, 1f, groundLayer)
