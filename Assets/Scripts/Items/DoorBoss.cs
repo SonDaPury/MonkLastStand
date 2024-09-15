@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class DoorBoss : MonoBehaviour
@@ -8,6 +9,10 @@ public class DoorBoss : MonoBehaviour
     public Door door3Script;
     public bool isDoorUsed = false;
     public DialogueManager dialogueManager;
+
+    // Switch camera
+    public CinemachineVirtualCamera playerCamera;
+    public CinemachineVirtualCamera bossCamera;
 
     private void Start()
     {
@@ -20,11 +25,34 @@ public class DoorBoss : MonoBehaviour
         if (collision.CompareTag("Player") && !isDoorUsed)
         {
             isDoorUsed = true;
+            SwitchToBossCamera();
             dialogueManager.StartDialogue();
-            Debug.Log("Door Boss Triggered");
             StartCoroutine(
                 door3Script.MoveDoor(door3Script.openPosition, door3Script.closedPosition)
             );
+            StartCoroutine(WaitForDialogueToEnd());
         }
+    }
+
+    private void SwitchToBossCamera()
+    {
+        playerCamera.Priority = 0;
+        bossCamera.Priority = 10;
+    }
+
+    private void SwitchToPlayerCamera()
+    {
+        bossCamera.Priority = 0;
+        playerCamera.Priority = 10;
+    }
+
+    private IEnumerator WaitForDialogueToEnd()
+    {
+        while (!dialogueManager.IsDialogueFinished)
+        {
+            yield return null;
+        }
+
+        SwitchToPlayerCamera();
     }
 }
