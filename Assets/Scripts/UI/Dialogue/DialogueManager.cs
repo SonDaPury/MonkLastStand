@@ -43,6 +43,16 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue()
     {
+        var rbPlayer = player.GetComponent<Rigidbody2D>();
+        var animatorPlayer = player.GetComponent<Animator>();
+        rbPlayer.velocity = Vector2.zero;
+        animatorPlayer.SetBool("IsRunning", false);
+        animatorPlayer.SetBool("IsJumping", false);
+        animatorPlayer.SetBool("Attack1", false);
+        animatorPlayer.SetBool("Attack2", false);
+        animatorPlayer.SetBool("Attack3", false);
+        animatorPlayer.SetBool("Attack4", false);
+        animatorPlayer.SetBool("IsDowning", false);
         IsDialogueFinished = false;
         bossBehaviour.enabled = false;
         playerManager.enabled = false;
