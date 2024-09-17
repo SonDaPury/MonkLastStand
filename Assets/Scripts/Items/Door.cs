@@ -52,12 +52,10 @@ public class Door : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         isPlayerInDoorRange = true;
-        Debug.Log("Player in range to open the door");
     }
 
     void OnCollisionExit2D(Collision2D other)
     {
         isPlayerInDoorRange = false;
-        Debug.Log("Player out of range to open the door");
     }
 }

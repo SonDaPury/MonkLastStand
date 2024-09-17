@@ -46,6 +46,14 @@ namespace Player
             {
                 damage = 35;
             }
+            else if (typeEnemy.Equals("BossAttack"))
+            {
+                damage = 50;
+            }
+            else if (typeEnemy.Equals("BossLaser"))
+            {
+                damage = 60;
+            }
 
             int finalDamage = damage - PlayerStats.Instance.def;
 

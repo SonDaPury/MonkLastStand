@@ -31,11 +31,9 @@ public class Chest : MonoBehaviour
 
     public void OpenChest()
     {
-        Debug.Log("Player is trying to open chest.");
         if (!isOpened)
         {
             isOpened = true;
-            Debug.Log("Chest opened! Player received a key.");
             animator.SetTrigger("IsOpenChest");
             ShowKey();
             StartCoroutine(DelayInActiveChest());
@@ -53,7 +51,6 @@ public class Chest : MonoBehaviour
             key.transform.position = player.position - keyOffset;
             key.SetActive(true);
             PlayerInventory.Instance.keys.Add(key);
-            Debug.Log("The key has appeared above the player!");
         }
     }
 
@@ -69,7 +66,6 @@ public class Chest : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            Debug.Log("Player is in range to open chest.");
         }
     }
 
@@ -78,7 +74,6 @@ public class Chest : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            Debug.Log("Player is out of range from chest.");
         }
     }
 }

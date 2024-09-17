@@ -14,51 +14,103 @@ public class BossBehaviour : MonoBehaviour
     public float rangedAttackRange = 5f; // Phạm vi tấn công tầm xa
     public float attackCooldown = 5f; // Thời gian chờ giữa các lần tấn công
     public bool isAttacking = false;
+    public int countAttack = 0;
     public Vector2 directionToPlayer;
+    public GameObject energyAccumulationBoss;
+    public GameObject energyAccumulationBossPosition;
+    public BossLaserAttack bossLaserAttack;
+    public float hpBoss = 500f;
 
     private Rigidbody2D rb;
     public Animator animator;
     private float distanceToPlayer;
+    public static BossBehaviour Instance { get; private set; }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        bossLaserAttack = GetComponent<BossLaserAttack>();
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
     {
         distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
         directionToPlayer = (player.transform.position - transform.position).normalized;
+
         transform.localScale = new Vector3(
             (directionToPlayer.x > 0 ? 1f : -1f) * Mathf.Abs(transform.localScale.x),
             transform.localScale.y,
             1f
         );
 
-        if (distanceToPlayer <= meleeRange)
+        if (!isAttacking)
         {
-            StartCoroutine(MeleeAttack());
-        }
-        else if (distanceToPlayer <= rangedAttackRange)
-        {
-            StartCoroutine(RangedAttack());
-        }
-        else if (distanceToPlayer <= chaseRange && !isAttacking)
-        {
-            BossChasePlayer();
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
-            animator.SetBool("IsAttackMelee", false);
-            animator.SetBool("IsAttackRange", false);
+            if ((distanceToPlayer <= meleeRange) && countAttack < 2)
+            {
+                StartCoroutine(MeleeAttack());
+            }
+            else if ((distanceToPlayer <= rangedAttackRange) && countAttack < 2)
+            {
+                StartCoroutine(RangedAttack());
+            }
+            else if ((countAttack >= 2) && (distanceToPlayer <= chaseRange))
+            {
+                countAttack = 0;
+                StartCoroutine(LaserAttack());
+            }
+            else if ((distanceToPlayer <= chaseRange) && !isAttacking)
+            {
+                BossChasePlayer();
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+                animator.SetBool("IsAttackMelee", false);
+                animator.SetBool("IsAttackRange", false);
+            }
         }
 
         if (IsWallCollision())
         {
             rb.velocity = Vector2.zero;
         }
+    }
+
+    private IEnumerator LaserAttack()
+    {
+        rb.velocity = Vector2.zero;
+        isAttacking = true;
+        animator.SetBool("IsLaserFace", true);
+        animator.SetBool("IsAttackMelee", false);
+        animator.SetBool("IsAttackRange", false);
+        energyAccumulationBoss.transform.position = energyAccumulationBossPosition
+            .transform
+            .position;
+
+        yield return new WaitForSeconds(0.7f);
+
+        energyAccumulationBoss.SetActive(true);
+
+        yield return new WaitForSeconds(1.5f);
+        animator.SetBool("IsLaserFace", false);
+        energyAccumulationBoss.SetActive(false);
+
+        bossLaserAttack.ShootLaser(player.transform.position);
+        yield return new WaitForSeconds(1.5f);
+
+        yield return new WaitForSeconds(attackCooldown); // Chờ cooldown trước khi tấn công lại
+        isAttacking = false;
+        // animator.SetBool("IsLaserFace", false);
     }
 
     // Đuổi theo player
@@ -74,13 +126,17 @@ public class BossBehaviour : MonoBehaviour
         {
             isAttacking = true;
             rb.velocity = Vector2.zero; // Dừng lại khi tấn công
-            Debug.Log("Melee Attack!");
+            countAttack++;
 
             // Thực hiện hành động tấn công (thêm animation hoặc logic tấn công)
             animator.SetBool("IsAttackMelee", true);
             animator.SetBool("IsAttackRange", false);
+            animator.SetBool("IsLaserFace", false);
 
-            yield return new WaitForSeconds(attackCooldown); // Chờ giữa các lần tấn công
+            yield return new WaitForSeconds(1.5f);
+            animator.SetBool("IsAttackMelee", false);
+
+            yield return new WaitForSeconds(attackCooldown - 1.5f); // Chờ giữa các lần tấn công
             isAttacking = false;
         }
     }
@@ -92,16 +148,24 @@ public class BossBehaviour : MonoBehaviour
         {
             isAttacking = true;
             rb.velocity = Vector2.zero; // Dừng lại khi tấn công
-            Debug.Log("Ranged Attack!");
+            countAttack++;
 
             // Thực hiện hành động tấn công (thêm animation hoặc logic tấn công tầm xa)
             animator.SetBool("IsAttackMelee", false);
             animator.SetBool("IsAttackRange", true);
+            animator.SetBool("IsLaserFace", false);
 
-            yield return new WaitForSeconds(attackCooldown); // Chờ giữa các lần tấn công
+            yield return new WaitForSeconds(1.3f); // Giả định thời gian thực hiện đòn đánh tầm xa là 1 giây
+
+            animator.SetBool("IsAttackRange", false);
+            // Chờ thêm thời gian cooldown trước khi có thể tấn công lại
+            yield return new WaitForSeconds(attackCooldown - 1.3f);
             isAttacking = false;
         }
     }
+
+    // Tấn công lazer
+
 
     private bool IsWallCollision()
     {
