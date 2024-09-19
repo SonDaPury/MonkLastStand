@@ -17,7 +17,7 @@ public class PlayerInventory : MonoBehaviour
         {
             Instance = this;
         }
-        else
+        else if (Instance != null)
         {
             Destroy(gameObject);
         }

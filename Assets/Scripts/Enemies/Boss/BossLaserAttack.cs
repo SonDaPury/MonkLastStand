@@ -13,6 +13,12 @@ public class BossLaserAttack : MonoBehaviour
     private Vector2 targetPosition; // Vị trí của player tại thời điểm bắn
     private Vector2 direction; // Hướng của tia laser
     private bool isLaserActive = false; // Trạng thái của tia laser
+    public BoxCollider2D laserCollider;
+
+    private void Awake()
+    {
+        laserCollider = GetComponent<BoxCollider2D>();
+    }
 
     public void ShootLaser(Vector2 playerPosition)
     {
@@ -51,7 +57,6 @@ public class BossLaserAttack : MonoBehaviour
         activeLaser.transform.rotation = Quaternion.Euler(0, 0, -angle);
 
         isLaserActive = true;
-        PlayerManager.Instance.playerTakeHit.TakeHit("BossLaser");
         yield return new WaitForSeconds(laserLifeTime);
 
         Destroy(activeLaser);

@@ -22,9 +22,9 @@ public class CombatManager : MonoBehaviour
         {
             Instance = this;
         }
-        else
+        else if (Instance != null)
         {
-            Debug.LogError("Combat manager have already been instantiated.");
+            Destroy(gameObject);
         }
     }
 

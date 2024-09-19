@@ -34,10 +34,10 @@ public class PlayerStats : MonoBehaviour
         {
             Instance = this;
         }
-        else
+        else if (Instance != null)
         {
             Destroy(gameObject);
-            Debug.LogError("Another instance of PlayerStats already exists");
+            //Debug.LogError("Another instance of PlayerStats already exists");
         }
     }
 

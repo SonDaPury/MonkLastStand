@@ -19,9 +19,9 @@ namespace Enemies
             {
                 Instance = this;
             }
-            else
+            else if (Instance != null)
             {
-                Debug.LogError("GoblinSpawn đã được khởi tạo.");
+                Destroy(gameObject);
             }
         }
 

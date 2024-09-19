@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBehaviour : MonoBehaviour
 {
@@ -19,7 +20,12 @@ public class BossBehaviour : MonoBehaviour
     public GameObject energyAccumulationBoss;
     public GameObject energyAccumulationBossPosition;
     public BossLaserAttack bossLaserAttack;
-    public float hpBoss = 500f;
+    public float maxHpBoss = 500f;
+    public float currentHp = 0;
+    public bool isBossDefend = false;
+    public BossHealthBar bossHealthBar;
+    public Text hpBossText;
+    public GameObject healthBarBoss;
 
     private Rigidbody2D rb;
     public Animator animator;
@@ -40,6 +46,14 @@ public class BossBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        currentHp = maxHpBoss;
+        bossHealthBar.SetMaxHealth(maxHpBoss);
+        hpBossText.text = currentHp + " / " + maxHpBoss;
+        healthBarBoss.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -84,6 +98,11 @@ public class BossBehaviour : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
+    }
+
+    private void Update()
+    {
+        hpBossText.text = currentHp + " / " + maxHpBoss;
     }
 
     private IEnumerator LaserAttack()
@@ -163,9 +182,6 @@ public class BossBehaviour : MonoBehaviour
             isAttacking = false;
         }
     }
-
-    // Tấn công lazer
-
 
     private bool IsWallCollision()
     {

@@ -10,6 +10,8 @@ public class Fireball : MonoBehaviour
     public GameObject impactEffect;
     private Rigidbody2D rb;
     public SkeletonManager skeletonManager;
+    public BossBehaviour bossBehaviour;
+    public GameObject boss;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class Fireball : MonoBehaviour
 
     private void Start()
     {
+        bossBehaviour = boss.GetComponent<BossBehaviour>();
         rb.velocity = new Vector2(PlayerManager.Instance.transform.localScale.x * fireballSpeed, 0);
     }
 
@@ -28,6 +31,7 @@ public class Fireball : MonoBehaviour
             collision.CompareTag("Enemy")
             || collision.CompareTag("Ground")
             || collision.CompareTag("Door")
+            || collision.CompareTag("Boss")
         )
         {
             var fireballImpact = Instantiate(impactEffect, transform.position, Quaternion.identity);
@@ -57,6 +61,11 @@ public class Fireball : MonoBehaviour
                 var animator = skeleton.GetComponent<Animator>();
                 animator.SetTrigger("IsTakeHit");
             }
+        }
+
+        if (collision.gameObject.Equals(boss))
+        {
+            bossBehaviour.currentHp -= PlayerStats.Instance.fireballDamage;
         }
     }
 }

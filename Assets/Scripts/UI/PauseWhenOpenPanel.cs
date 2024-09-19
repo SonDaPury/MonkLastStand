@@ -1,6 +1,9 @@
 using System;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Scene = UnityEngine.SceneManagement.Scene;
 
 namespace UI
 {
@@ -66,6 +69,12 @@ namespace UI
             restartButton.SetActive(true);
             quitButton.SetActive(true);
             skillPointPanel.SetActive(false);
+        }
+
+        public void RestartGame()
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
         }
     }
 }

@@ -9,6 +9,7 @@ public class DoorBoss : MonoBehaviour
     public Door door3Script;
     public bool isDoorUsed = false;
     public DialogueManager dialogueManager;
+    public GameObject bossHealthBar;
 
     // Switch camera
     public CinemachineVirtualCamera playerCamera;
@@ -44,6 +45,7 @@ public class DoorBoss : MonoBehaviour
     {
         bossCamera.Priority = 0;
         playerCamera.Priority = 10;
+        bossHealthBar.SetActive(true);
     }
 
     private IEnumerator WaitForDialogueToEnd()

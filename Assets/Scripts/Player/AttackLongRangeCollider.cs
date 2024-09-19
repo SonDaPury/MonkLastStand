@@ -7,6 +7,9 @@ public class AttackLongRangeCollider : MonoBehaviour
 {
     public Collider2D attackColliderLongRange;
     public SkeletonManager skeletonManager;
+    public BossBehaviour bossBehaviour;
+    public GameObject boss;
+    public BossHealthBar bossHealthBar;
 
     private void Awake()
     {
@@ -29,12 +32,23 @@ public class AttackLongRangeCollider : MonoBehaviour
         attackColliderLongRange.enabled = false;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
             PlayerManager.Instance.isEnemyAttack = false;
             GoblinTakeHitLongRange(other);
+        }
+        else if (other.CompareTag("Boss"))
+        {
+            if (other.gameObject.Equals(boss))
+            {
+                if (!bossBehaviour.isBossDefend)
+                {
+                    bossBehaviour.currentHp -= PlayerStats.Instance.attackDamage;
+                    bossHealthBar.SetHealth(bossBehaviour.currentHp);
+                }
+            }
         }
     }
 

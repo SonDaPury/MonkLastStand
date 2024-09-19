@@ -10,6 +10,9 @@ public class AttackCollider : MonoBehaviour
     public GoblinManager goblinManager;
     public EnemyManager enemyManager;
     public SkeletonManager skeletonManager;
+    public GameObject boss;
+    public BossBehaviour bossBehaviour;
+    public BossHealthBar bossHealthBar;
 
     private void Awake()
     {
@@ -17,6 +20,7 @@ public class AttackCollider : MonoBehaviour
         goblinManager = goblinPrefab.GetComponent<GoblinManager>();
         enemyManager = FindAnyObjectByType<EnemyManager>();
         skeletonManager = FindAnyObjectByType<SkeletonManager>();
+        bossBehaviour = boss.GetComponent<BossBehaviour>();
     }
 
     private void Start()
@@ -40,6 +44,17 @@ public class AttackCollider : MonoBehaviour
         {
             PlayerManager.Instance.isEnemyAttack = false;
             GoblinTakeHitShortRange(other);
+        }
+        else if (other.CompareTag("Boss"))
+        {
+            if (other.gameObject.Equals(boss))
+            {
+                if (!bossBehaviour.isBossDefend)
+                {
+                    bossBehaviour.currentHp -= PlayerStats.Instance.attackDamage;
+                    bossHealthBar.SetHealth(bossBehaviour.currentHp);
+                }
+            }
         }
     }
 
