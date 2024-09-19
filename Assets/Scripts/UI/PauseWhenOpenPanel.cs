@@ -22,10 +22,14 @@ namespace UI
         public Text defensePointText;
         public Text staminaPointText;
         public Text skillPointText;
+        public GameObject gameOver;
+        public bool isRestart = false;
 
         private void Start()
         {
             gameIsPaused = false;
+            isRestart = true;
+            Time.timeScale = 1;
         }
 
         void Update()
@@ -35,6 +39,12 @@ namespace UI
             attackPointText.text = "Atk: " + PlayerStats.Instance.attackDamage;
             defensePointText.text = "Def: " + PlayerStats.Instance.def;
             staminaPointText.text = "Sta: " + PlayerStats.Instance.stamina;
+
+            if (PlayerManager.Instance.currentHealth <= 0)
+            {
+                gameOver.SetActive(true);
+                Time.timeScale = 0;
+            }
         }
 
         public void Resume()
@@ -75,6 +85,10 @@ namespace UI
         {
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
+            gameIsPaused = false;
+            gameOver.SetActive(false);
+            Time.timeScale = 1;
+            isRestart = true;
         }
     }
 }

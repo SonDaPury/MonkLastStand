@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using Player;
 using UI;
 using UnityEngine;
@@ -66,7 +67,7 @@ public class PlayerManager : MonoBehaviour
         {
             // Nếu chưa có, gán instance này và không phá hủy nó khi chuyển đổi scene
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {

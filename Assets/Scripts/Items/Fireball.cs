@@ -16,6 +16,7 @@ public class Fireball : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        boss = GameObject.Find("Boss");
         skeletonManager = FindAnyObjectByType<SkeletonManager>();
     }
 
