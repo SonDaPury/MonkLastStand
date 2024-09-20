@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using Enemies;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ public class Fireball : MonoBehaviour
         )
         {
             var fireballImpact = Instantiate(impactEffect, transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX(2);
             Destroy(gameObject);
             Destroy(fireballImpact, 0.25f);
         }

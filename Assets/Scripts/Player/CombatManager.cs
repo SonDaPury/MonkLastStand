@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,6 +40,7 @@ public class CombatManager : MonoBehaviour
         {
             if (canReceiveInput)
             {
+                AudioManager.Instance.PlaySFX(0);
                 isAttacking = true;
                 inputReceived = true;
                 canReceiveInput = false;

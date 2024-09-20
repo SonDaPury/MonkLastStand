@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,6 +58,7 @@ namespace Player
         private void ShootFireBall()
         {
             Instantiate(fireballPrefab, fireballPosition.position, fireballPosition.rotation);
+            AudioManager.Instance.PlaySFX(0);
             CombatManager.Instance.playerStamina.DrainStamina(25f);
         }
     }
